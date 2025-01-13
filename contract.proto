@@ -15,8 +15,9 @@ message AccountDTO {
   int64 id = 1;
   string display_name = 2;
   bytes public_key = 3;
-  int64 registration_timestamp = 4;
-  int64 last_activity_timestamp = 5;
+  string public_key_fingerprint = 4;
+  int64 registration_timestamp = 5;
+  int64 last_activity_timestamp = 6;
 }
 
 message MessageDTO {
