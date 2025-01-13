@@ -82,7 +82,9 @@ message SendMessage {
     bytes body = 3;
     repeated MediaDTO media = 4;
   }
-  message Response {}
+  message Response {
+    MessageDTO message = 1;
+  }
 }
 
 message GetMessages {
