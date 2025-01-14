@@ -1,7 +1,7 @@
 syntax = "proto3";
 
 package contract;
-option go_package = "github.com/rsatalken/contract";
+option go_package = "github.com/rsatalken/contract/proto/v1";
 
 service RsaTalken {
   rpc Register(Register.Request) returns (Register.Response);

@@ -2,9 +2,9 @@
 // versions:
 // - protoc-gen-go-grpc v1.5.1
 // - protoc             v5.29.3
-// source: contract.proto
+// source: v1/contract.proto
 
-package contract
+package v1
 
 import (
 	context "context"
@@ -269,5 +269,5 @@ var RsaTalken_ServiceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "contract.proto",
+	Metadata: "v1/contract.proto",
 }
