@@ -7,6 +7,7 @@ service RsaTalken {
   rpc Register(Register.Request) returns (Register.Response);
   rpc Unregister(Unregister.Request) returns (Unregister.Response);
   rpc ListAccounts(ListAccounts.Request) returns (ListAccounts.Response);
+  rpc GetAccountByID(GetAccountByID.Request) returns (GetAccountByID.Response);
   rpc SendMessage(SendMessage.Request) returns (SendMessage.Response);
   rpc GetMessages(GetMessages.Request) returns (GetMessages.Response);
 }
@@ -73,6 +74,16 @@ message ListAccounts {
   }
   message Response {
     repeated AccountDTO accounts = 1;
+  }
+}
+
+
+message GetAccountByID {
+  message Request {
+    int64 id = 1;
+  }
+  message Response {
+    AccountDTO account = 1;
   }
 }
 

@@ -19,11 +19,12 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	RsaTalken_Register_FullMethodName     = "/contract.RsaTalken/Register"
-	RsaTalken_Unregister_FullMethodName   = "/contract.RsaTalken/Unregister"
-	RsaTalken_ListAccounts_FullMethodName = "/contract.RsaTalken/ListAccounts"
-	RsaTalken_SendMessage_FullMethodName  = "/contract.RsaTalken/SendMessage"
-	RsaTalken_GetMessages_FullMethodName  = "/contract.RsaTalken/GetMessages"
+	RsaTalken_Register_FullMethodName       = "/contract.RsaTalken/Register"
+	RsaTalken_Unregister_FullMethodName     = "/contract.RsaTalken/Unregister"
+	RsaTalken_ListAccounts_FullMethodName   = "/contract.RsaTalken/ListAccounts"
+	RsaTalken_GetAccountByID_FullMethodName = "/contract.RsaTalken/GetAccountByID"
+	RsaTalken_SendMessage_FullMethodName    = "/contract.RsaTalken/SendMessage"
+	RsaTalken_GetMessages_FullMethodName    = "/contract.RsaTalken/GetMessages"
 )
 
 // RsaTalkenClient is the client API for RsaTalken service.
@@ -33,6 +34,7 @@ type RsaTalkenClient interface {
 	Register(ctx context.Context, in *Register_Request, opts ...grpc.CallOption) (*Register_Response, error)
 	Unregister(ctx context.Context, in *Unregister_Request, opts ...grpc.CallOption) (*Unregister_Response, error)
 	ListAccounts(ctx context.Context, in *ListAccounts_Request, opts ...grpc.CallOption) (*ListAccounts_Response, error)
+	GetAccountByID(ctx context.Context, in *GetAccountByID_Request, opts ...grpc.CallOption) (*GetAccountByID_Response, error)
 	SendMessage(ctx context.Context, in *SendMessage_Request, opts ...grpc.CallOption) (*SendMessage_Response, error)
 	GetMessages(ctx context.Context, in *GetMessages_Request, opts ...grpc.CallOption) (*GetMessages_Response, error)
 }
@@ -75,6 +77,16 @@ func (c *rsaTalkenClient) ListAccounts(ctx context.Context, in *ListAccounts_Req
 	return out, nil
 }
 
+func (c *rsaTalkenClient) GetAccountByID(ctx context.Context, in *GetAccountByID_Request, opts ...grpc.CallOption) (*GetAccountByID_Response, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetAccountByID_Response)
+	err := c.cc.Invoke(ctx, RsaTalken_GetAccountByID_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *rsaTalkenClient) SendMessage(ctx context.Context, in *SendMessage_Request, opts ...grpc.CallOption) (*SendMessage_Response, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(SendMessage_Response)
@@ -102,6 +114,7 @@ type RsaTalkenServer interface {
 	Register(context.Context, *Register_Request) (*Register_Response, error)
 	Unregister(context.Context, *Unregister_Request) (*Unregister_Response, error)
 	ListAccounts(context.Context, *ListAccounts_Request) (*ListAccounts_Response, error)
+	GetAccountByID(context.Context, *GetAccountByID_Request) (*GetAccountByID_Response, error)
 	SendMessage(context.Context, *SendMessage_Request) (*SendMessage_Response, error)
 	GetMessages(context.Context, *GetMessages_Request) (*GetMessages_Response, error)
 	mustEmbedUnimplementedRsaTalkenServer()
@@ -122,6 +135,9 @@ func (UnimplementedRsaTalkenServer) Unregister(context.Context, *Unregister_Requ
 }
 func (UnimplementedRsaTalkenServer) ListAccounts(context.Context, *ListAccounts_Request) (*ListAccounts_Response, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListAccounts not implemented")
+}
+func (UnimplementedRsaTalkenServer) GetAccountByID(context.Context, *GetAccountByID_Request) (*GetAccountByID_Response, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetAccountByID not implemented")
 }
 func (UnimplementedRsaTalkenServer) SendMessage(context.Context, *SendMessage_Request) (*SendMessage_Response, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SendMessage not implemented")
@@ -204,6 +220,24 @@ func _RsaTalken_ListAccounts_Handler(srv interface{}, ctx context.Context, dec f
 	return interceptor(ctx, in, info, handler)
 }
 
+func _RsaTalken_GetAccountByID_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetAccountByID_Request)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(RsaTalkenServer).GetAccountByID(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: RsaTalken_GetAccountByID_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(RsaTalkenServer).GetAccountByID(ctx, req.(*GetAccountByID_Request))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _RsaTalken_SendMessage_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(SendMessage_Request)
 	if err := dec(in); err != nil {
@@ -258,6 +292,10 @@ var RsaTalken_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ListAccounts",
 			Handler:    _RsaTalken_ListAccounts_Handler,
+		},
+		{
+			MethodName: "GetAccountByID",
+			Handler:    _RsaTalken_GetAccountByID_Handler,
 		},
 		{
 			MethodName: "SendMessage",
